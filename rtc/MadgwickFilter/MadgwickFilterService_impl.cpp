@@ -1,6 +1,14 @@
 #include "MadgwickFilterService_impl.h"
 #include "MadgwickFilter.h"
 
+MadgwickFilterService_impl::MadgwickFilterService_impl()
+{
+}
+
+MadgwickFilterService_impl::~MadgwickFilterService_impl()
+{
+}
+
 void MadgwickFilterService_impl::setComp(MadgwickFilter *i_comp)
 {
   comp_ = i_comp;

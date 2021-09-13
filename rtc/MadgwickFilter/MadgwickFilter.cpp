@@ -22,12 +22,9 @@ static const char* MadgwickFilter_spec[] = {
 MadgwickFilter::MadgwickFilter(RTC::Manager* manager)
   : RTC::DataFlowComponentBase(manager),
     ports_(),
-    m_debugLevel_(0),
-    m_MadgwickFilterServicePort_("MadgwickFilterService"),
-    m_ThermoLimiter2ServicePort_("ThermoLimiter2Service")
+    m_debugLevel_(0)
 {
-  //this->ports_.m_service0_.setComp(this);
-  this->m_service0_.setComp(this);
+  this->ports_.m_service0_.setComp(this);
 }
 
 RTC::ReturnCode_t MadgwickFilter::onInitialize(){
@@ -37,12 +34,9 @@ RTC::ReturnCode_t MadgwickFilter::onInitialize(){
   addInPort("acc", this->ports_.m_accIn_);
   addOutPort("rpy", this->ports_.m_rpyOut_);
   std::cerr << "aaa" <<std::endl;
-  //this->ports_.m_MadgwickFilterServicePort_.registerProvider("service0", "MadgwickFilterService", this->ports_.m_service0_);
-  //this->m_MadgwickFilterServicePort_.registerProvider("service0", "MadgwickFilterService", this->m_service0_);
-  this->m_ThermoLimiter2ServicePort_.registerProvider("service1", "ThermoLimiter2Service", this->m_service1_);
+  this->ports_.m_MadgwickFilterServicePort_.registerProvider("service0", "MadgwickFilterService", this->ports_.m_service0_);
   std::cerr << "ccc" <<std::endl;
-  //addPort(this->ports_.m_MadgwickFilterServicePort_);
-  addPort(this->m_ThermoLimiter2ServicePort_);
+  addPort(this->ports_.m_MadgwickFilterServicePort_);
   std::cerr << "bbb" <<std::endl;
   this->loop_ = 0;
 

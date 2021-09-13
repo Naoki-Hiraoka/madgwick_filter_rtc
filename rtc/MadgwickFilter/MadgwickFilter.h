@@ -17,7 +17,6 @@
 #include <imu_filter_madgwick/imu_filter.h>
 
 #include "MadgwickFilterService_impl.h"
-#include "ThermoLimiter2Service_impl.h"
 
 class MadgwickFilter : public RTC::DataFlowComponentBase{
 public:
@@ -61,12 +60,6 @@ protected:
 
   MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam madgwickFilterParam_;
   ImuFilter imuFilter_;
-
-  RTC::CorbaPort m_MadgwickFilterServicePort_;
-  MadgwickFilterService_impl m_service0_;
-
-  RTC::CorbaPort m_ThermoLimiter2ServicePort_;
-  ThermoLimiter2Service_impl m_service1_;
 };
 
 

@@ -21,13 +21,12 @@ include_directories(
 rtmbuild_add_library(MadgwickFilter SHARED
   MadgwickFilter.cpp
   MadgwickFilterService_impl.cpp
-  ThermoLimiter2Service_impl.cpp
   )
 target_link_libraries(MadgwickFilter
   ${catkin_LIBRARIES}
   ${EIGEN_LIBRARIES}
   )
-#set_target_properties(MadgwickFilter PROPERTIES PREFIX "")
+add_dependencies(MadgwickFilter RTMBUILD_${PROJECT_NAME}_genrpc) # wait for rtmbuild_genidl
 
 rtmbuild_add_executable(MadgwickFilterComp MadgwickFilterComp.cpp)
 target_link_libraries(MadgwickFilterComp MadgwickFilter)

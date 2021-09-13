@@ -12,8 +12,8 @@ class MadgwickFilterService_impl
     public virtual PortableServer::RefCountServantBase
 {
 public:
-  MadgwickFilterService_impl(){};
-  virtual ~MadgwickFilterService_impl(){};
+  MadgwickFilterService_impl();// 実装は.cppファイルの方に書かないと、registerProvider時にSegmentation Faultになる
+  virtual ~MadgwickFilterService_impl();
   CORBA::Boolean setParams(const MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam& i_param);
   CORBA::Boolean getParams(MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam_out i_param);
   //

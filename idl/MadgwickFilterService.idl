@@ -1,0 +1,30 @@
+module MadgwickFilterRtcIdl
+{
+  interface MadgwickFilterService
+  {
+    /**
+     * @struct MadgwickFilterParam
+     * @brief MadgwickFilter Parameters. See http://wiki.ros.org/imu_filter_madgwick
+     */
+    struct MadgwickFilterParam
+    {
+      double gain;
+      double zeta;
+    };
+
+    /**
+     * @brief Set MadgwickFilter parameters
+     * @param i_param is input parameter
+     * @return true if set successfully, false otherwise
+     */
+    boolean setParams(in MadgwickFilterParam i_param);
+
+    /**
+     * @brief Get MadgwickFilter parameters
+     * @param i_param is input parameter
+     * @return true if set successfully, false otherwise
+     */
+    boolean getParams(out MadgwickFilterParam i_param);
+
+  };
+};

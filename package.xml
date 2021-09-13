@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>madgwick_filter_rtc</name>
+  <version>0.0.0</version>
+  <description>The madgwick_filter_rtc package</description>
+
+  <maintainer email="hiraoka@jsk.imi.i.u-tokyo.ac.jp">Naoki-Hiraoka</maintainer>
+
+  <license>GPL</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>imu_filter_madgwick</depend>
+  <depend>rtmbuild</depend>
+  <depend>roscpp</depend>
+</package>

@@ -33,11 +33,8 @@ RTC::ReturnCode_t MadgwickFilter::onInitialize(){
   addInPort("rate", this->ports_.m_rateIn_);
   addInPort("acc", this->ports_.m_accIn_);
   addOutPort("rpy", this->ports_.m_rpyOut_);
-  std::cerr << "aaa" <<std::endl;
   this->ports_.m_MadgwickFilterServicePort_.registerProvider("service0", "MadgwickFilterService", this->ports_.m_service0_);
-  std::cerr << "ccc" <<std::endl;
   addPort(this->ports_.m_MadgwickFilterServicePort_);
-  std::cerr << "bbb" <<std::endl;
   this->loop_ = 0;
 
   this->madgwickFilterParam_.gain = 0.1;

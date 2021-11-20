@@ -42,6 +42,13 @@ RTC::ReturnCode_t MadgwickFilter::onInitialize(){
   this->imuFilter_.setAlgorithmGain(this->madgwickFilterParam_.gain);
   this->imuFilter_.setDriftBiasGain(this->madgwickFilterParam_.zeta);
 
+  this->ports_.m_acc_.data.ax = 0.0;
+  this->ports_.m_acc_.data.ay = 0.0;
+  this->ports_.m_acc_.data.az = 9.8;
+  this->ports_.m_rate_.data.avx = 0.0;
+  this->ports_.m_rate_.data.avy = 0.0;
+  this->ports_.m_rate_.data.avz = 0.0;
+
   return RTC::RTC_OK;
 }
 
@@ -50,51 +57,30 @@ RTC::ReturnCode_t MadgwickFilter::onExecute(RTC::UniqueId ec_id){
   std::string instance_name = std::string(this->m_profile.instance_name);
 
   if(this->ports_.m_rateIn_.isNew() || this->ports_.m_accIn_.isNew()) {
-    // read ports and check dt
-    RTC::Time prev_tm;
-    if(this->ports_.m_rate_.tm.sec > this->ports_.m_acc_.tm.sec
-       ||
-       (this->ports_.m_rate_.tm.sec == this->ports_.m_acc_.tm.sec
-        &&
-        this->ports_.m_rate_.tm.nsec > this->ports_.m_acc_.tm.nsec))
-      prev_tm = this->ports_.m_rate_.tm;
-    else prev_tm = this->ports_.m_acc_.tm;
-
-    if(this->ports_.m_rateIn_.isNew()) this->ports_.m_rateIn_.read();
-    if(this->ports_.m_accIn_.isNew()) this->ports_.m_accIn_.read();
-
-    RTC::Time current_tm;
-    if(this->ports_.m_rate_.tm.sec > this->ports_.m_acc_.tm.sec
-       ||
-       (this->ports_.m_rate_.tm.sec == this->ports_.m_acc_.tm.sec
-        &&
-        this->ports_.m_rate_.tm.nsec > this->ports_.m_acc_.tm.nsec))
-      current_tm = this->ports_.m_rate_.tm;
-    else current_tm = this->ports_.m_acc_.tm;
-
-    double dt = (current_tm.sec -prev_tm.sec) + (current_tm.nsec -prev_tm.nsec) * 1e-9;
-
-    if (dt > 0.0) {
-      // update imu
-      this->imuFilter_.madgwickAHRSupdateIMU(this->ports_.m_rate_.data.avx,
-                                             this->ports_.m_rate_.data.avy,
-                                             this->ports_.m_rate_.data.avz,
-                                             this->ports_.m_acc_.data.ax,
-                                             this->ports_.m_acc_.data.ay,
-                                             this->ports_.m_acc_.data.az,
-                                             dt);
-      Eigen::Quaterniond q;
-      this->imuFilter_.getOrientation(q.w(),q.x(),q.y(),q.z());
-
-      // write outport
-      Eigen::Vector3d rpy = q.toRotationMatrix().eulerAngles(2,1,0);
-      this->ports_.m_rpy_.data.r = rpy[2];
-      this->ports_.m_rpy_.data.p = rpy[1];
-      this->ports_.m_rpy_.data.y = rpy[0];
-      this->ports_.m_rpy_.tm = current_tm;
-      this->ports_.m_rpyOut_.write();
-    }
+    this->ports_.m_rateIn_.read();
+    this->ports_.m_accIn_.read();
   }
+
+  double dt = 1.0 / this->get_context(ec_id)->get_rate();
+
+  // update imu
+  this->imuFilter_.madgwickAHRSupdateIMU(this->ports_.m_rate_.data.avx,
+                                         this->ports_.m_rate_.data.avy,
+                                         this->ports_.m_rate_.data.avz,
+                                         this->ports_.m_acc_.data.ax,
+                                         this->ports_.m_acc_.data.ay,
+                                         this->ports_.m_acc_.data.az,
+                                         dt);
+  Eigen::Quaterniond q;
+  this->imuFilter_.getOrientation(q.w(),q.x(),q.y(),q.z());
+
+  // write outport
+  Eigen::Vector3d rpy = q.toRotationMatrix().eulerAngles(2,1,0);
+  this->ports_.m_rpy_.data.r = rpy[2];
+  this->ports_.m_rpy_.data.p = rpy[1];
+  this->ports_.m_rpy_.data.y = rpy[0];
+  this->ports_.m_rpy_.tm = this->ports_.m_acc_.tm;
+  this->ports_.m_rpyOut_.write();
 
   this->loop_++;
   return RTC::RTC_OK;

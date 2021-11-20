@@ -1,4 +1,4 @@
-module MadgwickFilterRtcIdl
+module madgwick_filter_rtc
 {
   interface MadgwickFilterService
   {

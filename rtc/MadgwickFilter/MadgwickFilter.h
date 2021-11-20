@@ -48,8 +48,8 @@ public:
   virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
   virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
   virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
-  CORBA::Boolean setParams(const MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam& i_param);
-  CORBA::Boolean getParams(MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam& i_param);
+  CORBA::Boolean setParams(const madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param);
+  CORBA::Boolean getParams(madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param);
 
 protected:
 
@@ -58,7 +58,7 @@ protected:
 
   Ports ports_;
 
-  MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam madgwickFilterParam_;
+  madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam madgwickFilterParam_;
   ImuFilter imuFilter_;
 };
 

@@ -100,7 +100,7 @@ RTC::ReturnCode_t MadgwickFilter::onExecute(RTC::UniqueId ec_id){
   return RTC::RTC_OK;
 }
 
-CORBA::Boolean MadgwickFilter::setParams(const MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam& i_param){
+CORBA::Boolean MadgwickFilter::setParams(const madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param){
   std::cerr << "[" << m_profile.instance_name << "] "<< "setParams" << std::endl;
   this->madgwickFilterParam_ = i_param;
   this->imuFilter_.setAlgorithmGain(this->madgwickFilterParam_.gain);
@@ -110,7 +110,7 @@ CORBA::Boolean MadgwickFilter::setParams(const MadgwickFilterRtcIdl::MadgwickFil
 }
 
 
-CORBA::Boolean MadgwickFilter::getParams(MadgwickFilterRtcIdl::MadgwickFilterService::MadgwickFilterParam& i_param){
+CORBA::Boolean MadgwickFilter::getParams(madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param){
   std::cerr << "[" << m_profile.instance_name << "] "<< "getParams" << std::endl;
   i_param = this->madgwickFilterParam_;
   return true;

@@ -12,19 +12,9 @@ module madgwick_filter_rtc
       double zeta;
     };
 
-    /**
-     * @brief Set MadgwickFilter parameters
-     * @param i_param is input parameter
-     * @return true if set successfully, false otherwise
-     */
-    boolean setParams(in MadgwickFilterParam i_param);
+    void setParams(in MadgwickFilterParam i_param);
 
-    /**
-     * @brief Get MadgwickFilter parameters
-     * @param i_param is input parameter
-     * @return true if set successfully, false otherwise
-     */
-    boolean getParams(out MadgwickFilterParam i_param);
+    void getParams(out MadgwickFilterParam i_param);
 
   };
 };

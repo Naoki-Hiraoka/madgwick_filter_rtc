@@ -14,8 +14,8 @@ class MadgwickFilterService_impl
 public:
   MadgwickFilterService_impl();// 実装は.cppファイルの方に書かないと、registerProvider時にSegmentation Faultになる
   virtual ~MadgwickFilterService_impl();
-  CORBA::Boolean setParams(const madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param);
-  CORBA::Boolean getParams(madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam_out i_param);
+  void setParams(const madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam& i_param);
+  void getParams(madgwick_filter_rtc::MadgwickFilterService::MadgwickFilterParam_out i_param);
   //
   void setComp(MadgwickFilter *i_comp);
 private:

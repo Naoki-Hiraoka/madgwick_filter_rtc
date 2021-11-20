@@ -37,8 +37,18 @@ RTC::ReturnCode_t MadgwickFilter::onInitialize(){
   addPort(this->ports_.m_MadgwickFilterServicePort_);
   this->loop_ = 0;
 
-  this->madgwickFilterParam_.gain = 0.1;
-  this->madgwickFilterParam_.zeta = 0.0;
+  double gain = 0.1;
+  if(this->getProperties().hasKey("gain")) gain = std::stod(std::string(this->getProperties()["gain"]));
+  else if(this->m_pManager->getConfig().hasKey("gain")) gain = std::stod(std::string(this->m_pManager->getConfig()["gain"])); // 引数 -o で与えたプロパティを捕捉
+  std::cerr << "[" << this->m_profile.instance_name << "] gain: " << gain <<std::endl;
+
+  double zeta = 0.0;
+  if(this->getProperties().hasKey("zeta")) zeta = std::stod(std::string(this->getProperties()["zeta"]));
+  else if(this->m_pManager->getConfig().hasKey("zeta")) zeta = std::stod(std::string(this->m_pManager->getConfig()["zeta"])); // 引数 -o で与えたプロパティを捕捉
+  std::cerr << "[" << this->m_profile.instance_name << "] zeta: " << zeta <<std::endl;
+
+  this->madgwickFilterParam_.gain = gain;
+  this->madgwickFilterParam_.zeta = zeta;
   this->imuFilter_.setAlgorithmGain(this->madgwickFilterParam_.gain);
   this->imuFilter_.setDriftBiasGain(this->madgwickFilterParam_.zeta);
 
